@@ -22,8 +22,9 @@ TEST(recurrent_shared_future, use_case) {
 
   threads.CreateThreads(number_of_threads, [&]() {
     while (!done) {
-      int result = future.WaitFor(1s);
-      ASSERT_EQ(result, 42);
+      auto result = future.WaitFor(1s);
+      ASSERT_TRUE(result.has_value());
+      ASSERT_EQ(*result, 42);
       ++count;
     }
   });
